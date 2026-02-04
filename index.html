@@ -4,47 +4,286 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Prima ❤️</title>
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
       height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff4e8b, #ff9ec4, #ffb3d9);
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      color: white;
       text-align: center;
+      color: white;
     }
+
     .container {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      max-width: 600px;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 50px;
+      border-radius: 25px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+      max-width: 650px;
       width: 90%;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      position: relative;
+      z-index: 5;
+      animation: fadeIn 1s ease-in-out;
     }
-    h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    p  { font-size: 1.2rem; margin-bottom: 30px; }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
     button {
-      font-size: 1.2rem;
-      padding: 12px 25px;
+      font-size: 1.3rem;
+      padding: 14px 30px;
       margin: 10px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
+      transition: 0.25s ease;
+      font-weight: bold;
     }
-    .yes { background: #00c853; color: white; }
-    .no  { background: #d50000; color: white; }
+
+    .yes {
+      background: #00c853;
+      color: white;
+      box-shadow: 0 0 15px rgba(0, 200, 83, 0.6);
+    }
+
+    .yes:hover {
+      transform: scale(1.1);
+      background: #00e676;
+    }
+
+    .no {
+      background: #d50000;
+      color: white;
+      box-shadow: 0 0 15px rgba(213, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .no:hover {
+      transform: scale(1.05);
+      background: #ff1744;
+    }
+
+    /* Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #ff2b7a;
+      padding: 35px;
+      border-radius: 25px;
+      width: 85%;
+      max-width: 650px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.35);
+      z-index: 100;
+      animation: pop 0.4s ease;
+    }
+
+    .popup h2 {
+      margin-top: 0;
+      font-size: 2rem;
+      color: #ff2b7a;
+    }
+
+    .popup p {
+      font-size: 1.1rem;
+      color: #333;
+      text-align: left;
+      line-height: 1.7;
+    }
+
+    .closeBtn {
+      margin-top: 20px;
+      background: #ff2b7a;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .closeBtn:hover {
+      background: #ff005f;
+      transform: scale(1.05);
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 22px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pop {
+      from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    /* Music button */
+    .musicBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.4);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+    }
+
+    .musicBtn:hover {
+      background: rgba(255,255,255,0.35);
+      transform: scale(1.05);
+    }
   </style>
 </head>
+
 <body>
+
+  <!-- Music Button -->
+  <button class="musicBtn" onclick="toggleMusic()">🎵 Music</button>
+
   <div class="container">
     <h1>Hi Prima ❤️</h1>
-    <p>I made this page just for you.</p>
-    <button class="yes" onclick="alert('Yay! ❤️')">Yes</button>
-    <button class="no" onclick="alert('No worries 🙂')">No</button>
+    <p>I made this page just for you 😌💗 <br> Will you be mine?</p>
+
+    <button class="yes" onclick="showLove()">Yes 💚</button>
+    <button class="no" id="noBtn" onmouseover="moveNo()">No ❤️‍🩹</button>
   </div>
+
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <h2>OMG YOU SAID YES 😭❤️</h2>
+    <p id="loveText"></p>
+    <button class="closeBtn" onclick="closePopup()">Close 💕</button>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Floating hearts generator
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 25 + 15 + "px";
+      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 400);
+
+    // Move No button
+    function moveNo() {
+      const noBtn = document.getElementById("noBtn");
+      const x = Math.random() * 400 - 200;
+      const y = Math.random() * 250 - 120;
+
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // Show popup with I love you in many languages
+    function showLove() {
+      const popup = document.getElementById("popup");
+      const loveText = document.getElementById("loveText");
+
+      const lines = [
+        "❤️ I love you (English)",
+        "❤️ আমি তোমাকে ভালোবাসি (Bangla)",
+        "❤️ Te amo (Spanish)",
+        "❤️ Je t’aime (French)",
+        "❤️ Ti amo (Italian)",
+        "❤️ Ich liebe dich (German)",
+        "❤️ Я тебя люблю (Russian)",
+        "❤️ 사랑해 (Korean)",
+        "❤️ 愛してる (Japanese)",
+        "❤️ Seni seviyorum (Turkish)"
+      ];
+
+      loveText.innerHTML = `
+        <b>Prima, you just made my day 😭💗</b><br><br>
+        Here’s “I love you” in 10 languages just for you:<br><br>
+        ${lines.join("<br>")}
+        <br><br>
+        <b>Now you’re officially stuck with me 😌❤️</b>
+      `;
+
+      popup.style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // Music Toggle
+    let playing = false;
+
+    function toggleMusic() {
+      const music = document.getElementById("bgMusic");
+
+      if (!playing) {
+        music.play();
+        playing = true;
+        alert("Music ON 🎶❤️");
+      } else {
+        music.pause();
+        playing = false;
+        alert("Music OFF 🔇🙂");
+      }
+    }
+  </script>
+
 </body>
 </html>
